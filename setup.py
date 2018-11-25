@@ -1,9 +1,8 @@
-from setuptools import setup
+import setuptools
 
-setup(name='logger',
+setuptools.setup(name='logger',
       version='0.1',
       description='Wrapper for the logging module',
       url='https://github.com/KoenradusXLVIII/SmartHouse/tree/master/python/logger',
       author='Joost Verberk',
-      packages=['logger'],
-      zip_safe=False)
+      packages=setuptools.find_packages())
