@@ -2,7 +2,7 @@ import platform
 import logging.handlers
 
 
-class Logger:
+class Client:
     def __init__(self, name, log_level='info'):
         # Store local variables
         self.name = name
