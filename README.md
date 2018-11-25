@@ -5,7 +5,7 @@ It automatically detects the platform and sets the logging handlers accordingly.
 
 ## Usage example
 ```Python
-from logger import Logger
+import logger
 
 # Set up simple logger with default log level, which is informational
 log_client = Logger('My logger')
