@@ -3,6 +3,6 @@ import setuptools
 setuptools.setup(name='logger',
       version='0.1',
       description='Wrapper for the logging module',
-      url='https://github.com/KoenradusXLVIII/SmartHouse/tree/master/python/logger',
+      url='https://github.com/KoenradusXLVIII/Logger',
       author='Joost Verberk',
       packages=setuptools.find_packages())
