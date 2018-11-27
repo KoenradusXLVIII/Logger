@@ -1,41 +1,31 @@
 import pytest
 import logger
+names = {'first','second'}
+log_levels = {'info','debug','warning','error','critical'}
 
 
-def test_default_log_level():
-    log_client = logger.Client('test')
+@pytest.fixture
+def log_client():
+    return logger.Client('test')
+
+
+def test_default_log_level(log_client):
     assert log_client.get_log_level() == 'info'
 
 
-def test_change_name():
-    log_client = logger.Client('first_name')
-    assert log_client.get_name() == 'first_name'
-    log_client.set_name('second_name')
-    assert log_client.get_name() == 'second_name'
+@pytest.mark.parametrize("name", names)
+def test_change_name(log_client, name):
+    log_client.set_name(name)
+    assert log_client.get_name() == name
 
 
-def test_set_log_level_at_init():
-    log_client = logger.Client('test', 'info')
-    assert log_client.get_log_level() == 'info'
-    log_client = logger.Client('test', 'debug')
-    assert log_client.get_log_level() == 'debug'
-    log_client = logger.Client('test', 'warning')
-    assert log_client.get_log_level() == 'warning'
-    log_client = logger.Client('test', 'error')
-    assert log_client.get_log_level() == 'error'
-    log_client = logger.Client('test', 'critical')
-    assert log_client.get_log_level() == 'critical'
+@pytest.mark.parametrize("log_level", log_levels)
+def test_set_log_level_at_init(log_level):
+    log_client = logger.Client('test', log_level)
+    assert log_client.get_log_level() == log_level
 
 
-def test_set_log_level():
-    log_client = logger.Client('test','critical')
-    log_client.set_log_level('info')
-    assert log_client.get_log_level() == 'info'
-    log_client.set_log_level('debug')
-    assert log_client.get_log_level() == 'debug'
-    log_client.set_log_level('warning')
-    assert log_client.get_log_level() == 'warning'
-    log_client.set_log_level('error')
-    assert log_client.get_log_level() == 'error'
-    log_client.set_log_level('critical')
-    assert log_client.get_log_level() == 'critical'
+@pytest.mark.parametrize("log_level", log_levels)
+def test_set_log_level(log_client, log_level):
+    log_client.set_log_level(log_level)
+    assert log_client.get_log_level() == log_level

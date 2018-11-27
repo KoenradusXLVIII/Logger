@@ -1,5 +1,10 @@
 import platform
 import logging.handlers
+log_levels = {'debug':logging.DEBUG,
+              'info':logging.INFO,
+              'warning':logging.WARNING,
+              'error':logging.ERROR,
+              'critical':logging.CRITICAL}
 
 
 class Client:
@@ -36,21 +41,8 @@ class Client:
     def set_log_level(self, log_level):
         # Set new log level
         self.log_level = log_level.lower()
-        if self.log_level == 'debug':
-            new_log_level = logging.DEBUG
-        elif self.log_level == 'info':
-            new_log_level = logging.INFO
-        elif self.log_level == 'warning':
-            new_log_level = logging.WARNING
-        elif self.log_level == 'error':
-            new_log_level = logging.ERROR
-        elif self.log_level == 'critical':
-            new_log_level = logging.CRITICAL
-        else:
-            new_log_level = logging.INFO  # Default log level
-
-        self.logger.setLevel(new_log_level)
-        self.handler.setLevel(new_log_level)
+        self.logger.setLevel(log_levels[self.log_level])
+        self.handler.setLevel(log_levels[self.log_level])
 
     def get_log_level(self):
         # Return current log level
