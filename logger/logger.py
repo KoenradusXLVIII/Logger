@@ -8,25 +8,31 @@ log_levels = {'debug':logging.DEBUG,
 
 
 class Client:
-    def __init__(self, name, log_level='info'):
+    def __init__(self, name, log_level='info', pushover_client=''):
         # Store local variables
         self.name = name
         self.log_level = log_level.lower()
+        self.platform = platform.system()
+        self.pushover_client = pushover_client
 
         # Create logging instance
         self.logger = logging.getLogger(self.name)
         self.formatter = logging.Formatter('%(name)s [%(levelname)s] %(message)s')
 
         # Initialise and add logging handler (platform dependent)
-        if platform.system() == 'Windows':
+        if self.platform == 'Windows':
             self.handler = logging.StreamHandler()
-        elif platform.system() == 'Linux':
+        elif self.platform == 'Linux':
             self.handler = logging.handlers.SysLogHandler(address='/dev/log')
         self.logger.addHandler(self.handler)
 
         # Configure logger
         self.set_name(self.name)
         self.set_log_level(self.log_level)
+
+        # Initialise log
+        self.info('Logger \'%s\' started on %s with log level %s' %
+                  (self.name, self.platform, self.log_level.capitalize()))
 
     def get_name(self):
         # Return current name
@@ -38,6 +44,9 @@ class Client:
         self.formatter = logging.Formatter('%(name)s [%(levelname)s] %(message)s')
         self.handler.setFormatter(self.formatter)
 
+    def get_platform(self):
+        return self.platform
+
     def set_log_level(self, log_level):
         # Set new log level
         self.log_level = log_level.lower()
@@ -48,22 +57,38 @@ class Client:
         # Return current log level
         return self.log_level
 
-    def debug(self, message):
+    def get_pushover(self):
+        return self.pushover_client
+
+    def set_pushover(self, pushover_client):
+        self.pushover_client = pushover_client
+
+    def debug(self, message, push=False):
         # Log informational message
         self.logger.debug(message)
+        if self.pushover_client and push:
+            self.pushover_client.message(message, title=self.name)
 
-    def info(self, message):
+    def info(self, message, push=False):
         # Log informational message
         self.logger.info(message)
+        if self.pushover_client and push:
+            self.pushover_client.message(message, title=self.name)
 
-    def warning(self, message):
+    def warning(self, message, push=True):
         # Log informational message
         self.logger.warning(message)
+        if self.pushover_client and push:
+            self.pushover_client.message(message, title=self.name)
 
-    def error(self, message):
+    def error(self, message, push=True):
         # Log informational message
         self.logger.error(message)
+        if self.pushover_client and push:
+            self.pushover_client.message(message, title=self.name, priority='high', sound='alien')
 
-    def error(self, message):
+    def critical(self, message, push=True):
         # Log informational message
         self.logger.critical(message)
+        if self.pushover_client and push:
+            self.pushover_client.message(message, title=self.name, priority='high', sound='alien')
