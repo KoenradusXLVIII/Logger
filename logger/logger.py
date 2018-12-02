@@ -32,7 +32,7 @@ class Client:
 
         # Initialise log
         self.info('Logger \'%s\' started on %s with log level %s' %
-                  (self.name, self.platform, self.log_level.capitalize()))
+                  (self.name, self.platform, self.log_level.upper()))
 
     def get_name(self):
         # Return current name
