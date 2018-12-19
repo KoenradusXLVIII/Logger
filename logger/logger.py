@@ -31,7 +31,7 @@ class Client:
         self.set_log_level(self.log_level)
 
         # Initialise log
-        self.info('Logger \'%s\' started on %s with log level %s' %
+        self.debug('Logger \'%s\' started on %s with log level %s' %
                   (self.name, self.platform, self.log_level.upper()))
 
     def get_name(self):
@@ -62,6 +62,7 @@ class Client:
 
     def set_pushover(self, pushover_client):
         self.pushover_client = pushover_client
+
 
     def debug(self, message, push=False):
         # Log informational message
